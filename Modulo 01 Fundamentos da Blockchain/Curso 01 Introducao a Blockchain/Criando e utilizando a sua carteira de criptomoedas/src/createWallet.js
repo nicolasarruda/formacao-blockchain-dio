@@ -22,12 +22,15 @@ let root = bip32.fromSeed(seed, network)
 let account = root.derivePath(path)
 let node = account.derive(0).derive(0)
 
-let btcAddress = bitcoin.payments.p2pkh({
-    pubkey: node.publicKey,
-    network: network,
+// Alterando o método de criação para P2WPKH:
+let btcAddress = bitcoin.payments.p2wpkh({
+  pubkey: node.publicKey,
+  network: network,
 }).address
 
 console.log("Carteira gerada")
 console.log("Endereço: ", btcAddress)
 console.log("Chave privada:", node.toWIF())
+// Mostrando a chave pública no console log - toString('hex') converte a chave pública em uma String Hexadecimal:
+console.log('Chave publica: ', node.publicKey.toString('hex'))
 console.log("Seed:", mnemonic)
